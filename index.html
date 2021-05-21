@@ -56,7 +56,7 @@
                 Location
               </th>
             </thead>
-            <tr v-for="place in places" :key="id">
+            <tr v-for="place in places" :key="place.id">
               <td>
                 {{place.visits[0].date}}
               </td>
