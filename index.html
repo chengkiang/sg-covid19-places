@@ -67,10 +67,15 @@
             </thead>
             <tr v-for="place in places" :key="place.id">
               <td>
-                {{place.visits[0].date}}
+                <span v-if="place.visits.length === 1">
+                  {{place.visits[0].date}}
+                </span>
               </td>
               <td>
-                {{place.visits[0].duration}}
+                <span v-if="place.visits.length === 1">
+                  {{place.visits[0].duration}}
+                </span>
+
               </td>
               <td>
 
@@ -78,6 +83,7 @@
 
                 <ul v-for="visit in place.visits" v-if="visit.venues.length > 0">
                   <li v-for="venue in visit.venues">
+                    {{ visit.date }}
                     {{ visit.duration }}:
                     {{ venue }}
                   </li>
