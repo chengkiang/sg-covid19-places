@@ -67,8 +67,11 @@
             </thead>
             <tr v-for="place in places" :key="place.id">
               <td>
-                <span v-if="place.visits.length === 1">
+                <span v-if="place.visits[place.visits.length-1].date === place.visits[0].date">
                   {{place.visits[0].date}}
+                </span>
+                <span v-else>
+                  {{place.visits[0].date}} to {{place.visits[place.visits.length-1].date}}
                 </span>
               </td>
               <td>
@@ -81,14 +84,13 @@
 
                 <strong>{{place.name}} ({{place.address}})</strong><br>
 
-                <ul v-for="visit in place.visits" v-if="visit.venues.length > 0">
-                  <li v-for="venue in visit.venues">
+                <ul>
+                  <li v-for="visit in place.visits">
                     {{ visit.date }}
                     {{ visit.duration }}:
-                    {{ venue }}
+                    {{ visit.venues[0] }}
                   </li>
                 </ul>
-
               </td>
             </tr>
           </table>
@@ -98,14 +100,17 @@
       <div class="row">
         <div class="col">
           <p>
-            <a href="https://ppvbc.github.io" target="_blank">Map view</a> (by <a href="https://github.com/ppvbc" target="_blank">@ppvbc</a>)<br>
+            <a href="https://ppvbc.github.io" target="_blank">Map view</a> (by <a href="https://github.com/ppvbc"
+              target="_blank">@ppvbc</a>)<br>
           </p>
 
           <p>
-            Data from <a href="https://github.com/ppvbc/ppvbc.github.io" target="_blank">https://github.com/ppvbc/ppvbc.github.io</a>.<br>
+            Data from <a href="https://github.com/ppvbc/ppvbc.github.io"
+              target="_blank">https://github.com/ppvbc/ppvbc.github.io</a>.<br>
           </p>
 
-          <p>Thanks to <a href="https://github.com/ppvbc" target="_blank">@ppvbc</a> for making the data available in an easy-to-use format.</p>
+          <p>Thanks to <a href="https://github.com/ppvbc" target="_blank">@ppvbc</a> for making the data available in an
+            easy-to-use format.</p>
         </div>
       </div>
     </div>
@@ -124,7 +129,14 @@
       async mounted() {
         try {
           const { data } = await axios.get(url);
-          this.places = data.places;
+          this.places = data.places.map(p => {
+
+            p.visits.sort((a, b) => {
+              return Date.parse(a.date + ' 2021') - Date.parse(b.date + ' 2021')
+            })
+
+            return p;
+          });
         }
         catch (e) {
         }
