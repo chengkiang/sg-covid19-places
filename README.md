@@ -1,1 +1,4 @@
-"# sg-covid19-places" 
+---
+permalink: /index.html
+---
+"# sg-covid19-places"
