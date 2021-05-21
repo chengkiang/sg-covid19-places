@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Places Visited by COVID-19 Patients When Infectious</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    table {
+      margin-top: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .container {
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1>Places Visited by COVID-19 Patients</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table class="table table-bordered" style="width:80%">
+            <thead>
+              <th>
+                Date
+              </th>
+
+              <th>
+                Time
+              </th>
+
+              <th>
+                Location
+              </th>
+            </thead>
+            <tr v-for="place in places" :key="id">
+              <td>
+                {{place.visits[0].date}}
+              </td>
+              <td>
+                {{place.visits[0].duration}}
+              </td>
+              <td>
+
+                <strong>{{place.name}} ({{place.address}})</strong><br>
+
+                <ul v-for="visit in place.visits" v-if="visit.venues.length > 0">
+                  <li v-for="venue in visit.venues">
+                    {{ visit.duration }}:
+                    {{ venue }}
+                  </li>
+                </ul>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          Data from <a href="https://github.com/ppvbc/ppvbc.github.io">https://github.com/ppvbc/ppvbc.github.io</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script>
+    const url = 'https://ppvbc.github.io/places-fetched.json';
+    const vm = new Vue({
+      el: '#app',
+      data: () => ({
+        places: []
+      }),
+
+      async mounted() {
+        try {
+          const { data } = await axios.get(url);
+          this.places = data.places;
+        }
+        catch (e) {
+        }
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>
