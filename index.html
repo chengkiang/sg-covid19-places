@@ -89,7 +89,7 @@
                   <li v-for="visit in place.visits">
                     {{ visit.date }}
                     {{ visit.duration }}:
-                    {{ visit.venues[0] }}
+                    {{ visit.venues.join(', ') }}
                   </li>
                 </ul>
               </td>
