@@ -85,7 +85,7 @@
               </td>
               <td>
 
-                <strong>{{place.name}} ({{place.address}})</strong><br>
+                <strong>{{place.name}} ({{place.address}})</strong>—{{place.visits.length}} {{ place.visits.length > 1 ? 'visits' : 'visit'}}<br>
 
                 <ul>
                   <li v-for="visit in place.visits">
