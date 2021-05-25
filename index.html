@@ -29,6 +29,8 @@
 
     .container {
       margin-bottom: 2rem;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -47,120 +49,131 @@
   <div id="app">
     <div class="container">
       <div class="row">
-        <div class="col text-center">
+        <div class="col-10 offset-sm-1 text-center">
           <h1>Places Visited by COVID-19 Patients</h1>
           <p>Updated: {{ lastUpdated }}</p>
+        </div>
 
-          <p>
-            The Ministry of Health (MOH) publishes a daily list of places visited by COVID-19 cases while they were infectious. Unforunately, not only is it buried deep in the annals of the MOH website, it's in a PDF, not exactly a friendly format for use on the web. Recently, I came across <a href="https://ppvbc.github.io" target="_blank">this map</a> done by a fellow developer named <a href="https://github.com/chpeck" target="_blank">Chong</a>, and he has made the data available on GitHub. I believe he extracted them from the MOH data. Kudos for the effort!
-          </p>
+        <div class="row">
+          <div class="col-10 offset-sm-1 text-left">
+            <p>
+              The Ministry of Health (MOH) publishes a daily list of places visited by COVID-19 cases while they were
+              infectious. Unforunately, not only is it buried deep in the annals of the MOH website, it's in a PDF, not
+              exactly a friendly format for use on the web. Recently, I came across <a href="https://ppvbc.github.io"
+                target="_blank">this map</a> done by a fellow developer named <a href="https://github.com/chpeck"
+                target="_blank">Chong</a>, and he has made the data available on GitHub. I believe he extracted them
+              from the MOH data. Kudos for the effort!
+            </p>
 
-          <p>
-            Using the same data, I presented it as a table instead, which I find is easier to read. It's arranged in chronological order, from oldest to newest.
-          </p>
+            <p>
+              Using the same data, I presented it as a table instead, which I find is easier to read. It's arranged in
+              chronological order, from oldest to newest.
+            </p>
 
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10 offset-sm-1">
+            <table class="table table-bordered">
+              <thead>
+                <th>
+                  Date
+                </th>
+
+                <th>
+                  Time
+                </th>
+
+                <th>
+                  Location
+                </th>
+              </thead>
+              <tr v-for="place in places" :key="place.id">
+                <td>
+                  <span v-if="place.visits[place.visits.length-1].date === place.visits[0].date">
+                    {{place.visits[0].date}}
+                  </span>
+                  <span v-else>
+                    {{place.visits[0].date}} to {{place.visits[place.visits.length-1].date}}
+                  </span>
+                </td>
+                <td>
+                  <span v-if="place.visits.length === 1">
+                    {{place.visits[0].duration}}
+                  </span>
+
+                </td>
+                <td>
+
+                  <strong>{{place.name}} ({{place.address}})</strong>—{{place.visits.length}} {{ place.visits.length > 1
+                  ? 'visits' : 'visit'}}<br>
+
+                  <ul>
+                    <li v-for="visit in place.visits">
+                      {{ visit.date }}
+                      {{ visit.duration }}:
+                      {{ visit.venues.join(', ') }}
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <p>
+              <a href="https://ppvbc.github.io" target="_blank">Map view</a> (by <a href="https://github.com/chpeck"
+                target="_blank">Choon</a>)<br>
+            </p>
+
+            <p>
+              Data from <a href="https://github.com/ppvbc/ppvbc.github.io"
+                target="_blank">https://github.com/ppvbc/ppvbc.github.io</a>.<br>
+            </p>
+
+            <p>Thanks to <a href="https://github.com/chpeck" target="_blank">Choon</a> for making the data available in
+              an
+              easy-to-use format.</p>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <table class="table table-bordered" style="width:80%">
-            <thead>
-              <th>
-                Date
-              </th>
 
-              <th>
-                Time
-              </th>
-
-              <th>
-                Location
-              </th>
-            </thead>
-            <tr v-for="place in places" :key="place.id">
-              <td>
-                <span v-if="place.visits[place.visits.length-1].date === place.visits[0].date">
-                  {{place.visits[0].date}}
-                </span>
-                <span v-else>
-                  {{place.visits[0].date}} to {{place.visits[place.visits.length-1].date}}
-                </span>
-              </td>
-              <td>
-                <span v-if="place.visits.length === 1">
-                  {{place.visits[0].duration}}
-                </span>
-
-              </td>
-              <td>
-
-                <strong>{{place.name}} ({{place.address}})</strong>—{{place.visits.length}} {{ place.visits.length > 1 ? 'visits' : 'visit'}}<br>
-
-                <ul>
-                  <li v-for="visit in place.visits">
-                    {{ visit.date }}
-                    {{ visit.duration }}:
-                    {{ visit.venues.join(', ') }}
-                  </li>
-                </ul>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <p>
-            <a href="https://ppvbc.github.io" target="_blank">Map view</a> (by <a href="https://github.com/chpeck"
-              target="_blank">Choon</a>)<br>
-          </p>
-
-          <p>
-            Data from <a href="https://github.com/ppvbc/ppvbc.github.io"
-              target="_blank">https://github.com/ppvbc/ppvbc.github.io</a>.<br>
-          </p>
-
-          <p>Thanks to <a href="https://github.com/chpeck" target="_blank">Choon</a> for making the data available in an
-            easy-to-use format.</p>
-        </div>
-      </div>
     </div>
 
-  </div>
 
+    <script>
+      const url = 'https://ppvbc.github.io/places-fetched.json';
+      const vm = new Vue({
+        el: '#app',
+        data: () => ({
+          places: [],
+          lastUpdated: ''
+        }),
 
-  <script>
-    const url = 'https://ppvbc.github.io/places-fetched.json';
-    const vm = new Vue({
-      el: '#app',
-      data: () => ({
-        places: [],
-        lastUpdated: ''
-      }),
+        async mounted() {
+          try {
+            const { data } = await axios.get(url);
+            this.places = data.places.map(p => {
 
-      async mounted() {
-        try {
-          const { data } = await axios.get(url);
-          this.places = data.places.map(p => {
+              p.visits.sort((a, b) => {
+                return Date.parse(a.date + ' 2021') - Date.parse(b.date + ' 2021')
+              })
 
-            p.visits.sort((a, b) => {
-              return Date.parse(a.date + ' 2021') - Date.parse(b.date + ' 2021')
-            })
+              return p;
+            });
 
-            return p;
-          });
-
-          console.log(data.timestamp);
-          this.lastUpdated = new Date(data.timestamp);
+            console.log(data.timestamp);
+            this.lastUpdated = new Date(data.timestamp);
+          }
+          catch (e) {
+          }
         }
-        catch (e) {
-        }
-      }
-    })
+      })
 
 
-  </script>
+    </script>
 </body>
 
 </html>
