@@ -5,4 +5,4 @@ The Ministry of Health (MOH) publishes a daily list of places visited by COVID-1
 
 Using the same data, I presented it as a table instead, which I find is easier to read.
 
-[Demo]([https://chengkiang.github.io/sg-covid19-places/)
+[Demo](https://chengkiang.github.io/sg-covid19-places/)
